@@ -1,0 +1,18 @@
+[submodule "spdlog"]
+	path = dependencies/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "fmt"]
+	path = dependencies/fmt
+	url = https://github.com/fmtlib/fmt
+[submodule "CLI11"]
+	path = dependencies/CLI11
+	url = https://github.com/CLIUtils/CLI11
+[submodule "googletest"]
+	path = dependencies/googletest
+	url = https://github.com/google/googletest
+[submodule "abseil"]
+	path = dependencies/abseil
+	url = https://github.com/abseil/abseil-cpp
+[submodule "protobuf"]
+	path = dependencies/protobuf
+	url = git@github.com:vlv2/mirror-protobuf-3.21.11.git
