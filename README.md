@@ -2,9 +2,19 @@
 
 ## dependencies
 
-1. CMake >= v.3.16
-2. Ninja Build System >= v1.10.0
-3. NodeJS >= v16.17.1 e NPM >= 8.15 (development only)
+### general 
+
+1. GCC >= v9.4.0
+2. CMake >= v.3.16
+3. Ninja Build System >= v1.10.0
+4. Git >= v2.25.1
+   
+### development
+
+1. NodeJS >= v16.17.1 e NPM >= 8.15
+2. CTest >= v3.16
+3. clang-format >= v15.0.6
+4. clang-tidy >= v15.0.6
 
 ## build
 
@@ -31,4 +41,10 @@ cmake --build build/ --config Debug --target all -j8
 
 ```script
 npm install
+```
+
+2. Run tests
+
+```script
+cd build && ctest -C Debug
 ```

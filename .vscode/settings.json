@@ -1,3 +1,9 @@
 {
     "cmake.configureOnOpen": true,
+    "C/C++ Include Guard.Macro Type": "Filepath",
+    "C/C++ Include Guard.Path Depth": 3,
+    "C/C++ Include Guard.Auto Update Include Guard": true,
+    "C/C++ Include Guard.Remove Extension": false,
+    "C/C++ Include Guard.Prefix": "BASE_REPO_",
+    "C/C++ Include Guard.Path Skip": 1,
 }
