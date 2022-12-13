@@ -33,7 +33,7 @@ jobs:
         run: |
           cmake --build ./build --config Debug --target all
       
-      -name: Test and coverage
+      - name: Test and coverage
         working-directory: ./build
         run: |
           ctest -C Debug
