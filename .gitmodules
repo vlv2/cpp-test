@@ -15,4 +15,4 @@
 	url = https://github.com/abseil/abseil-cpp
 [submodule "protobuf"]
 	path = dependencies/protobuf
-	url = git@github.com:vlv2/mirror-protobuf-3.21.11.git
+	url = https://github.com/vlv2/mirror-protobuf-3.21.11
