@@ -11,5 +11,5 @@ add_executable(main main.cpp)
 target_compile_options(main PUBLIC ${FINNANCE_COMPILE_OPTIONS})
 target_link_libraries(
     main 
-    spdlog::spdlog fmt::fmt 
+    spdlog::spdlog fmt::fmt
 )

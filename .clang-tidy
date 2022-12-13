@@ -1,4 +1,5 @@
 Checks: >
+  abseil-*,
   bugprone-*,
   cert-*,
   clang-analyzer-*,
@@ -29,6 +30,8 @@ Checks: >
   -modernize-avoid-c-arrays,
   -readability-uppercase-literal-suffix,
   -readability-identifier-length,
+
+FormatStyle: file
 
 CheckOptions:
 # readability
