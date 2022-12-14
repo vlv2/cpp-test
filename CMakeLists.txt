@@ -13,35 +13,27 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH  ${PROJECT_SOURCE_DIR}/build/bin)
+set(THIRD_PARTY_PATH ${PROJECT_SOURCE_DIR}/third_party)
 
 option(BUILD_TESTS "Build tests" TRUE)
 
 find_package(Threads REQUIRED)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(SetTests)
 
-message(STATUS "Configuring spdlog lib")
-add_subdirectory(dependencies/spdlog)
-message("")
+message("Configuring spdlog")
+add_subdirectory(${THIRD_PARTY_PATH}/spdlog)
+message("Configuring fmt")
+add_subdirectory(${THIRD_PARTY_PATH}/fmt)
+message("Configuring CL11")
+add_subdirectory(${THIRD_PARTY_PATH}/CLI11)
+message("Configuring abseil")
+add_subdirectory(${THIRD_PARTY_PATH}/abseil)
+add_subdirectory(${THIRD_PARTY_PATH}/protobuf)
+message("Configuring nlohmann-json")
+add_subdirectory(${THIRD_PARTY_PATH}/nlohmann-json)
 
-message(STATUS "Configuring fmt lib")
-add_subdirectory(dependencies/fmt)
-message("")
-
-message(STATUS "Configuring CLI11 lib")
-add_subdirectory(dependencies/CLI11)
-message("")
-
-message(STATUS "Configuring abseil lib")
-add_subdirectory(dependencies/abseil)
-message("")
-
-message(STATUS "Configuring protobuf lib")
-add_subdirectory(dependencies/protobuf)
-message("")
-
-include_directories(dependencies/inifile-cpp)
-include_directories(dependencies/nlohmann)
+include_directories(${THIRD_PARTY_PATH}/inifile-cpp)
 
 add_subdirectory(src)

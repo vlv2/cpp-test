@@ -18,12 +18,23 @@ jobs:
         with:
           submodules: true
       
+      - name: Configure Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./build/lib
+            ./build/bin/protoc
+            ./build/bin/protoc
+
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
           compiler: gcc-9
           cmake: true
           ninja: true
+          ccache: true
+        run: |
+          ccache --max-size=400M --compression=true --compression_level=5
       
       - name: Configure CMake
         run: |
@@ -33,7 +44,7 @@ jobs:
         run: |
           cmake --build ./build --config Debug --target all
       
-      - name: Test and coverage
+      - name: Test
         working-directory: ./build
         run: |
           ctest -C Debug

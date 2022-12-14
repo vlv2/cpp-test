@@ -1,18 +1,24 @@
 [submodule "spdlog"]
-	path = dependencies/spdlog
+	path = third_party/spdlog
 	url = https://github.com/gabime/spdlog
 [submodule "fmt"]
-	path = dependencies/fmt
+	path = third_party/fmt
 	url = https://github.com/fmtlib/fmt
 [submodule "CLI11"]
-	path = dependencies/CLI11
+	path = third_party/CLI11
 	url = https://github.com/CLIUtils/CLI11
 [submodule "googletest"]
-	path = dependencies/googletest
+	path = third_party/googletest
 	url = https://github.com/google/googletest
 [submodule "abseil"]
-	path = dependencies/abseil
+	path = third_party/abseil
 	url = https://github.com/abseil/abseil-cpp
+[submodule "nlohmann-json"]
+	path = third_party/nlohmann-json
+	url = https://github.com/nlohmann/json
 [submodule "protobuf"]
-	path = dependencies/protobuf
-	url = https://github.com/vlv2/mirror-protobuf-3.21.11
+	path = third_party/protobuf
+	url = https://github.com/protocolbuffers/protobuf
+[submodule "inifile-cpp"]
+	path = third_party/inifile-cpp
+	url = https://github.com/Rookfighter/inifile-cpp

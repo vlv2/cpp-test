@@ -6,4 +6,8 @@
     "C/C++ Include Guard.Remove Extension": false,
     "C/C++ Include Guard.Prefix": "BASE_REPO_",
     "C/C++ Include Guard.Path Skip": 1,
+    "cmake.configureSettings": {
+        "protobuf_BUILD_TESTS": false,
+        "protobuf_VERBOSE": true,
+    }
 }
