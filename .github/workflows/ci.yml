@@ -18,22 +18,28 @@ jobs:
         with:
           submodules: true
 
-      - name: Setup Cpp
+      - name: Setup cpp
         uses: aminya/setup-cpp@v1
         with:
           compiler: gcc-9
           cmake: true
           ninja: true
           ccache: true
+      
+      - name: Configure ccache
         run: |
           ccache --max-size=1G --compression=true --compression_level=5
-        
+      
       - name: Configure Cache
         uses: actions/cache@v3
         key: ubuntu-20.04-ccache
         with:
-          path: ~/.ccache
-      
+          path: |
+            ~/.ccache
+            ./build/lib/Debug/
+            ./build/bin/Debug/protoc
+            ./build/bin/Debug/protoc-3.21.11.0
+
       - name: Configure CMake
         run: |
           cmake -S . -B build/ -G "Ninja Multi-Config" -DCMAKE_BUILD_TYPE:STRING=Debug -Dprotobuf_BUILD_TESTS:BOOL=FALSE -DCMAKE_C_COMPILER_LAUNCH=ccache -DCMAKE_CXX_COMPILER_LAUNCH=ccache
