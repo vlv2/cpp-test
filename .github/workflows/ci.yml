@@ -28,7 +28,7 @@ jobs:
       
       - name: Configure ccache
         run: |
-          ccache --max-size=1G --compression=true --compression_level=5
+          ccache --max-size=1G --set-config=compression=true --set-config=compression_level=5
       
       - name: Configure Cache
         uses: actions/cache@v3
