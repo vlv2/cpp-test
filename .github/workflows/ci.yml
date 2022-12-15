@@ -33,12 +33,14 @@ jobs:
       - name: Configure Cache
         uses: actions/cache@v3
         with:
-          key: ubuntu-20.04-ccache
           path: |
             ~/.ccache
             ./build/lib/Debug/
             ./build/bin/Debug/protoc
             ./build/bin/Debug/protoc-3.21.11.0
+          key: ubuntu-20.04-ccache
+          restore-keys: |
+            ubuntu-20.04-ccache
 
       - name: Configure CMake
         run: |
