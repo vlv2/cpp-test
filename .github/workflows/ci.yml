@@ -32,8 +32,8 @@ jobs:
       
       - name: Configure Cache
         uses: actions/cache@v3
-        key: ubuntu-20.04-ccache
         with:
+          key: ubuntu-20.04-ccache
           path: |
             ~/.ccache
             ./build/lib/Debug/
