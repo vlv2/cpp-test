@@ -34,6 +34,6 @@ add_subdirectory(${THIRD_PARTY_PATH}/protobuf)
 message("Configuring nlohmann-json")
 add_subdirectory(${THIRD_PARTY_PATH}/nlohmann-json)
 
-include_directories(${THIRD_PARTY_PATH}/inifile-cpp)
+include_directories(${THIRD_PARTY_PATH}/inifile-cpp/include)
 
 add_subdirectory(src)
