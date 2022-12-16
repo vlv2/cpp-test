@@ -9,5 +9,6 @@
     "cmake.configureSettings": {
         "protobuf_BUILD_TESTS": false,
         "protobuf_VERBOSE": true,
+        "ABSL_PROPAGATE_CXX_STD": true,
     }
 }
