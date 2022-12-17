@@ -19,6 +19,3 @@
 [submodule "protobuf"]
 	path = third_party/protobuf
 	url = https://github.com/protocolbuffers/protobuf
-[submodule "inifile-cpp"]
-	path = third_party/inifile-cpp
-	url = https://github.com/Rookfighter/inifile-cpp
