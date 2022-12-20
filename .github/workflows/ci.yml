@@ -10,7 +10,7 @@ on:
       - develop
 
 jobs:
-  Test:
+  MainCI:
     runs-on: ubuntu-20.04
 
     steps:
@@ -18,7 +18,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Setup cpp
+      - name: Setup environment
         uses: aminya/setup-cpp@v1
         with:
           compiler: gcc-9
@@ -38,10 +38,10 @@ jobs:
           key: ubuntu-20.04-ccache
           restore-keys: ubuntu-20.04-ccache
 
-      - name: Configure CMake
+      - name: Configure cmake
         run: |
-          "cmake -S . -B build/ -G "Ninja Multi-Config" -DCMAKE_BUILD_TYPE:STRING=Debug
-          -Dprotobuf_BUILD_TESTS:BOOL=FALSE -DABSL_PROPAGATE_CXX_STD:BOOL=TRUE"
+          cmake -S . -B build/ -G "Ninja Multi-Config" -DCMAKE_BUILD_TYPE:STRING=Debug 
+          -Dprotobuf_BUILD_TESTS:BOOL=FALSE -DABSL_PROPAGATE_CXX_STD:BOOL=TRUE
       
       - name: Build
         run: |
