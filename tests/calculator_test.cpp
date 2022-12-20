@@ -41,5 +41,6 @@ TEST(DivTest, DivFloatAndFloat) {
 // NOLINTNEXTLINE
 TEST(DivTest, DivByZero) {
     Calculator<float, float> calc;
+    // NOLINTNEXTLINE
     EXPECT_EXIT(calc.Div(1.5f, 0.0f), testing::ExitedWithCode(EXIT_FAILURE), "");
 }

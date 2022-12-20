@@ -1,5 +1,40 @@
 cmake_minimum_required(VERSION 3.16)
 
+# C compiler
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED TRUE)
+set(CMAKE_C_EXTENSIONS ON)
+
+# C++ compiler
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_CXX_EXTENSIONS ON)
+
+# Both developer and user mode
+set(ENABLE_CACHE_DEFAULT ON)
+set(ENABLE_CONAN_DEFAULT OFF)
+set(ENABLE_CLANG_TIDY_DEFAULT OFF)
+
+# Developer mode
+option(ENABLE_DEVELOPER_MODE "Enable 'developer mode'" TRUE)
+
+set(ENABLE_COVERAGE_DEVELOPER_DEFAULT ON)
+set(ENABLE_CPPCHECK_DEVELOPER_DEFAULT ON)
+set(ENABLE_SANITIZER_ADDRESS_DEVELOPER_DEFAULT ON)
+set(ENABLE_SANITIZER_LEAK_DEVELOPER_DEFAULT ON)
+set(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR_DEVELOPER_DEFAULT ON)
+set(ENABLE_SANITIZER_MEMORY_DEVELOPER_DEFAULT ON)
+set(ENABLE_SANITIZER_THREAD_DEVELOPER_DEFAULT OFF)
+
+include(FetchContent)
+FetchContent_Declare(
+    _project_options 
+    URL https://github.com/aminya/project_options/archive/refs/tags/v0.26.2.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
+FetchContent_MakeAvailable(_project_options)
+include(${_project_options_SOURCE_DIR}/Index.cmake)
+
 project(
     main 
     VERSION 1.0.0
@@ -7,46 +42,60 @@ project(
     LANGUAGES C CXX
 )
 
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ${CCACHE_PROGRAM})
+include(${_project_options_SOURCE_DIR}/src/Common.cmake)
+common_project_options()
+
+include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
+dynamic_project_options(
+    CPPCHECK_OPTIONS
+    --project=${CMAKE_BINARY_DIR}/compile_commands.json
+    -I${PROJECT_SOURCE_DIR}/src/
+    -I${PROJECT_SOURCE_DIR}/src/math/
+    -I${PROJECT_SOURCE_DIR}/tests/
+    -I${PROJECT_SOURCE_DIR}/fuzz_tests/
+    -i${PROJECT_SOURCE_DIR}/third_party/
+    -i${PROJECT_SOURCE_DIR}/third_party/spdlog/
+    -i${PROJECT_SOURCE_DIR}/third_party/fmt/
+    -i${PROJECT_SOURCE_DIR}/third_party/protobuf/
+    -i${PROJECT_SOURCE_DIR}/third_party/abseil/
+    -i${PROJECT_SOURCE_DIR}/third_party/CLI11/
+    -i${PROJECT_SOURCE_DIR}/third_party/nlohmann-json/
+    -i${PROJECT_SOURCE_DIR}/third_party/googletest/
+)
+
+target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
+
+# Adding third_parties:
+set(THIRD_PARTIES abseil CLI11 fmt googletest nlohmann-json protobuf spdlog)
+foreach(THIRD_PARTY ${THIRD_PARTIES})
+    add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/${THIRD_PARTY})
+endforeach()
+
+# Only main and tests targets will be analyzed by cppcheck.
+if(${OPT_ENABLE_CPPCHECK})
+    include(${_project_options_SOURCE_DIR}/src/Utilities.cmake)
+    include(${_project_options_SOURCE_DIR}/src/StaticAnalyzers.cmake)
+
+    get_all_targets(_targets_list)
+    foreach(target ${_targets_list})
+        target_disable_static_analysis(${target})
+    endforeach()
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
-
-option (FORCE_COLORED_OUTPUT "Always produce ANSI-colored output (GNU/Clang only)." TRUE)
-if (${FORCE_COLORED_OUTPUT})
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-       add_compile_options (-fdiagnostics-color=always)
-    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-       add_compile_options (-fcolor-diagnostics)
-    endif ()
-endif ()
-
-set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
-set(EXECUTABLE_OUTPUT_PATH  ${PROJECT_SOURCE_DIR}/build/bin)
-set(THIRD_PARTY_PATH ${PROJECT_SOURCE_DIR}/third_party)
-
-option(BUILD_TESTS "Build tests" TRUE)
-
-find_package(Threads REQUIRED)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-include(SetTests)
-
-message("Configuring spdlog")
-add_subdirectory(${THIRD_PARTY_PATH}/spdlog)
-message("Configuring fmt")
-add_subdirectory(${THIRD_PARTY_PATH}/fmt)
-message("Configuring CL11")
-add_subdirectory(${THIRD_PARTY_PATH}/CLI11)
-message("Configuring abseil")
-add_subdirectory(${THIRD_PARTY_PATH}/abseil)
-message("Configuring protobuf")
-add_subdirectory(${THIRD_PARTY_PATH}/protobuf)
-message("Configuring nlohmann-json")
-add_subdirectory(${THIRD_PARTY_PATH}/nlohmann-json)
-
+# Adding the src:
+include_directories(src)
 add_subdirectory(src)
+
+# Adding the tests:
+option(ENABLE_TESTING "Enable the tests" ON)
+if(ENABLE_TESTING)
+  enable_testing()
+  message(STATUS "Building Tests.")
+  add_subdirectory(tests)
+endif()
+
+option(ENABLE_FUZZING "Enable the fuzz tests" OFF)
+if(ENABLE_FUZZING)
+  message(STATUS "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
+  add_subdirectory(fuzz_tests)
+endif()
