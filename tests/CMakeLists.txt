@@ -6,7 +6,9 @@ add_executable(
 )
 target_link_libraries(
   calculator_test
-  GTest::gtest_main
+  PRIVATE project_warnings
+          project_options
+          GTest::gtest_main
 )
 
 gtest_discover_tests(calculator_test)

@@ -49,18 +49,7 @@ include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 dynamic_project_options(
     CPPCHECK_OPTIONS
     --project=${CMAKE_BINARY_DIR}/compile_commands.json
-    -I${PROJECT_SOURCE_DIR}/src/
-    -I${PROJECT_SOURCE_DIR}/src/math/
-    -I${PROJECT_SOURCE_DIR}/tests/
-    -I${PROJECT_SOURCE_DIR}/fuzz_tests/
     -i${PROJECT_SOURCE_DIR}/third_party/
-    -i${PROJECT_SOURCE_DIR}/third_party/spdlog/
-    -i${PROJECT_SOURCE_DIR}/third_party/fmt/
-    -i${PROJECT_SOURCE_DIR}/third_party/protobuf/
-    -i${PROJECT_SOURCE_DIR}/third_party/abseil/
-    -i${PROJECT_SOURCE_DIR}/third_party/CLI11/
-    -i${PROJECT_SOURCE_DIR}/third_party/nlohmann-json/
-    -i${PROJECT_SOURCE_DIR}/third_party/googletest/
 )
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})

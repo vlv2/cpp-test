@@ -1,4 +1,8 @@
 {
+    "files.associations": {
+        ".clang-tidy": "yaml",
+        ".clang-format": "yaml",
+    },
     "cmake.configureOnOpen": true,
     "C/C++ Include Guard.Macro Type": "Filepath",
     "C/C++ Include Guard.Path Depth": 3,
@@ -10,5 +14,6 @@
         "protobuf_BUILD_TESTS": false,
         "protobuf_VERBOSE": true,
         "ABSL_PROPAGATE_CXX_STD": true,
+        "OPT_WARNINGS_AS_ERRORS": true,
     }
 }
